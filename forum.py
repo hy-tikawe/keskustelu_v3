@@ -57,14 +57,3 @@ def search(query):
                    m.content LIKE ?
              ORDER BY m.sent_at DESC"""
     return db.query(sql, ["%" + query + "%"])
-
-def get_user_messages(id):
-    sql = """SELECT m.id,
-                    m.thread_id,
-                    t.title thread_title,
-                    m.sent_at
-             FROM threads t, messages m
-             WHERE t.id = m.thread_id AND
-                   m.user_id = ?
-             ORDER BY m.sent_at DESC"""
-    return db.query(sql, [id])

@@ -29,7 +29,7 @@ def user(id):
     user = users.get_user(id)
     if not user:
         abort(404)
-    messages = forum.get_user_messages(id)
+    messages = users.get_messages(id)
     return render_template("user.html", user=user, messages=messages)
 
 @app.route("/thread/<int:id>")
@@ -152,11 +152,11 @@ def add_image():
     if request.method == "POST":
         file = request.files["image"]
         if not file.filename.endswith(".jpg"):
-            return "Väärä tiedostomuoto"
+            return "VIRHE: väärä tiedostomuoto"
 
         image = file.read()
         if len(image) > 100 * 1024:
-            return "Liian suuri kuva"
+            return "VIRHE: liian suuri kuva"
 
         user_id = session["user_id"]
         users.update_image(user_id, image)

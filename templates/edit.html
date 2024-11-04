@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Viestin muokkaus</title>
+</head>
+
+<body>
+  <h1>Viestin muokkaus</h1>
+
+  <form action="/edit/{{ message.id }}" method="post">
+    <p>
+      Viesti:<br />
+      <textarea name="content" rows="5" cols="40" maxlength="5000">{{ message.content }}</textarea>
+    </p>
+    <input type="submit" value="Lähetä">
+  </form>
+</body>
+
+</html>

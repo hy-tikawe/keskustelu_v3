@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Haku</title>
+</head>
+
+<body>
+  <h1>Haku</h1>
+
+  <form action="/search" method="get">
+    <p>
+      Hakusana:
+      {% if query %}
+      <input type="text" name="query" value="{{ query }}">
+      {% else %}
+      <input type="text" name="query">
+      {% endif %}
+    </p>
+    <input type="submit" value="Hae">
+  </form>
+
+  {% if query %}
+  <hr />
+  <h2>Tulokset</h2>
+  
+  <ul>
+  {% for result in results %}
+    <li>
+      <a href="/thread/{{ result.thread_id }}#{{ result.message_id }}">
+        {{ result.thread_title }}
+      </a>
+      <br />
+      {{ result.username }} ({{ result.sent_at }})
+    </li>  
+  {% endfor %}
+  </ul>
+  {% endif %}
+</body>
+
+</html>

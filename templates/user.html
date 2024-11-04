@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Käyttäjä {{ user.username }}</title>
+</head>
+
+<body>
+  <h1>Käyttäjä {{ user.username }}</h1>
+
+  {% if user.has_image %}
+  <img src="/image/{{ user.id }}">
+  {% endif %}
+
+  {% if session.user_id %}
+  <p>
+    <a href="/add_image">Lisää profiilikuva</a>
+  </p>
+  {% endif %}
+
+  <p>
+    Käyttäjä on lähettänyt {{ messages | count }} viestiä
+  </p>
+
+  {% if messages %}
+  <p>
+    Ensimmäinen viesti lähetetty {{ messages[-1].sent_at }}
+  </p>
+  <p>
+    Viimeisin viesti lähetetty {{ messages[0].sent_at }}
+  </p>
+  {% endif %}
+
+  <h2>Viestit</h2>
+
+  <ul>
+  {% for message in messages %}
+    <li>
+      <a href="/thread/{{ message.thread_id }}#{{ message.id }}">
+        {{ message.thread_title }}
+      </a>
+      <br />
+      ({{ message.sent_at }})
+    </li>  
+  {% endfor %}
+  </ul>
+</body>
+
+</html>

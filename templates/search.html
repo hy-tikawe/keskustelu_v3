@@ -12,12 +12,12 @@
     <p>
       Hakusana:
       {% if query %}
-      <input type="text" name="query" value="{{ query }}">
+      <input type="text" name="query" value="{{ query }}" />
       {% else %}
-      <input type="text" name="query">
+      <input type="text" name="query" />
       {% endif %}
     </p>
-    <input type="submit" value="Hae">
+    <input type="submit" value="Hae" />
   </form>
 
   {% if query %}
@@ -32,7 +32,7 @@
       </a>
       <br />
       {{ result.username }} ({{ result.sent_at }})
-    </li>  
+    </li>
   {% endfor %}
   </ul>
   {% endif %}

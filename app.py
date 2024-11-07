@@ -25,7 +25,7 @@ def search():
     return render_template("search.html", query=query, results=results)
 
 @app.route("/user/<int:id>")
-def user(id):
+def show_user(id):
     user = users.get_user(id)
     if not user:
         abort(404)
@@ -124,7 +124,7 @@ def login():
     if request.method == "GET":
         return render_template("login.html")
 
-    else:
+    if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
 

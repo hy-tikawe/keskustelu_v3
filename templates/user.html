@@ -12,7 +12,7 @@
   <img src="/image/{{ user.id }}">
   {% endif %}
 
-  {% if session.user_id %}
+  {% if user.id == session.user_id %}
   <p>
     <a href="/add_image">Lisää profiilikuva</a>
   </p>

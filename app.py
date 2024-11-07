@@ -14,10 +14,6 @@ def index():
     threads = forum.get_threads()
     return render_template("index.html", threads=threads)
 
-@app.route("/register")
-def register():
-    return render_template("register.html")
-
 @app.route("/search")
 def search():
     query = request.args.get("query")
@@ -103,21 +99,25 @@ def remove_message(id):
             forum.remove_message(message["id"])
         return redirect("/thread/" + str(message["thread_id"]))
 
-@app.route("/new_user", methods=["POST"])
-def new_user():
-    username = request.form["username"]
-    if len(username) > 16:
-        abort(403)
-    password1 = request.form["password1"]
-    password2 = request.form["password2"]
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "GET":
+        return render_template("register.html")
 
-    if password1 != password2:
-        return "VIRHE: salasanat eivät ole samat"
+    if request.method == "POST":
+        username = request.form["username"]
+        if len(username) > 16:
+            abort(403)
+        password1 = request.form["password1"]
+        password2 = request.form["password2"]
 
-    if users.create_user(username, password1):
-        return "Tunnus luotu"
-    else:
-        return "VIRHE: tunnus on jo varattu"
+        if password1 != password2:
+            return "VIRHE: salasanat eivät ole samat"
+
+        if users.create_user(username, password1):
+            return "Tunnus luotu"
+        else:
+            return "VIRHE: tunnus on jo varattu"
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

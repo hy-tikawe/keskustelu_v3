@@ -21,14 +21,14 @@ def check_login(username, password):
 
     return None
 
-def get_user(id):
+def get_user(user_id):
     sql = """SELECT id, username, image IS NOT NULL has_image
              FROM users
              WHERE id = ?"""
-    result = db.query(sql, [id])
+    result = db.query(sql, [user_id])
     return result[0] if result else None
 
-def get_messages(id):
+def get_messages(user_id):
     sql = """SELECT m.id,
                     m.thread_id,
                     t.title thread_title,
@@ -37,14 +37,14 @@ def get_messages(id):
              WHERE t.id = m.thread_id AND
                    m.user_id = ?
              ORDER BY m.sent_at DESC"""
-    return db.query(sql, [id])
+    return db.query(sql, [user_id])
 
 
-def update_image(id, image):
+def update_image(user_id, image):
     sql = "UPDATE users SET image = ? WHERE id = ?"
-    db.execute(sql, [image, id])
+    db.execute(sql, [image, user_id])
 
-def get_image(id):
+def get_image(user_id):
     sql = "SELECT image FROM users WHERE id = ?"
-    result = db.query(sql, [id])
+    result = db.query(sql, [user_id])
     return result[0][0] if result else None

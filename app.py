@@ -20,20 +20,20 @@ def search():
     results = forum.search(query) if query else []
     return render_template("search.html", query=query, results=results)
 
-@app.route("/user/<int:id>")
-def show_user(id):
-    user = users.get_user(id)
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
     if not user:
         abort(404)
-    messages = users.get_messages(id)
+    messages = users.get_messages(user_id)
     return render_template("user.html", user=user, messages=messages)
 
-@app.route("/thread/<int:id>")
-def show_thread(id):
-    thread = forum.get_thread(id)
+@app.route("/thread/<int:thread_id>")
+def show_thread(thread_id):
+    thread = forum.get_thread(thread_id)
     if not thread:
         abort(404)
-    messages = forum.get_messages(id)
+    messages = forum.get_messages(thread_id)
     return render_template("thread.html", thread=thread, messages=messages)
 
 @app.route("/new_thread", methods=["POST"])
@@ -65,11 +65,11 @@ def new_message():
         abort(403)
     return redirect("/thread/" + str(thread_id))
 
-@app.route("/edit/<int:id>", methods=["GET", "POST"])
-def edit_message(id):
+@app.route("/edit/<int:message_id>", methods=["GET", "POST"])
+def edit_message(message_id):
     require_login()
 
-    message = forum.get_message(id)
+    message = forum.get_message(message_id)
     if not message or message["user_id"] != session["user_id"]:
         abort(403)
 
@@ -83,11 +83,11 @@ def edit_message(id):
         forum.update_message(message["id"], content)
         return redirect("/thread/" + str(message["thread_id"]))
 
-@app.route("/remove/<int:id>", methods=["GET", "POST"])
-def remove_message(id):
+@app.route("/remove/<int:message_id>", methods=["GET", "POST"])
+def remove_message(message_id):
     require_login()
 
-    message = forum.get_message(id)
+    message = forum.get_message(message_id)
     if not message or message["user_id"] != session["user_id"]:
         abort(403)
 
@@ -162,9 +162,9 @@ def add_image():
         users.update_image(user_id, image)
         return redirect("/user/" + str(user_id))
 
-@app.route("/image/<int:id>")
-def show_image(id):
-    image = users.get_image(id)
+@app.route("/image/<int:user_id>")
+def show_image(user_id):
+    image = users.get_image(user_id)
     if not image:
         abort(404)
 

@@ -4,11 +4,7 @@ import db
 def create_user(username, password):
     password_hash = generate_password_hash(password)
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
-    try:
-        db.execute(sql, [username, password_hash])
-        return True
-    except:
-        return False
+    db.execute(sql, [username, password_hash])
 
 def check_login(username, password):
     sql = "SELECT id, password_hash FROM users WHERE username = ?"

@@ -43,7 +43,7 @@ def new_thread():
 
     title = request.form["title"]
     content = request.form["content"]
-    if len(title) > 100 or len(content) > 5000:
+    if not title or len(title) > 100 or len(content) > 5000:
         abort(403)
     user_id = session["user_id"]
 
@@ -108,7 +108,7 @@ def register():
 
     if request.method == "POST":
         username = request.form["username"]
-        if len(username) > 16:
+        if not username or len(username) > 16:
             abort(403)
         password1 = request.form["password1"]
         password2 = request.form["password2"]
